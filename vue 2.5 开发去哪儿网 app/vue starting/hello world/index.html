@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='../../vue.js'></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="root">{{content}}</div>
+    <script type="text/javascript">
+        const vue = new Vue({
+            el: '#root',
+            data: {
+                content: 'hello world'
+            }
+        })
+        setTimeout(function(){
+            vue.$data.content = 'bye bye bye'
+        },2000)
+    </script>
+</body>
+</html>
