@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='../../vue.js'></script>
+    <title>模板语法</title>
+</head>
+<body>
+    <div id="root">
+        <div>{{message}}</div>
+        <div v-text='name + "yang"'></div>
+        <div v-html='name'></div>
+    </div>
+    <script>
+        // vue 中的模板语法有三种：插值表达式、vue 指令：v-text/v-html。vue 指令后面的是 js 表达式
+        // 插值表达式和 v-text 指令后的字符串在编译时不会进行转义
+        const vm = new Vue({
+            el: '#root',
+            data: {
+                message: '<h1>插值</h1>表达式',
+                name: '<h1>silli</h1>'
+            }
+        })
+    </script>
+</body>
+</html>

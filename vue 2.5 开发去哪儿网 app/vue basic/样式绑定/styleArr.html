@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='../../vue.js'></script>
+    <title>style 进行样式绑定（对象的形式）: toggle font color</title>
+</head>
+<body>
+    <div id="root" :style='[active,pointer]' @click='handleClick'>
+        hello world
+    </div>
+    <script>
+        // style 数组语法允许将多个样式对象应用到同一个元素上
+        const vm = new Vue({
+            el: '#root',
+            data: {
+                active: {
+                    color: ''
+                },
+                pointer: {
+                    cursor: 'pointer',
+                }
+            },
+            methods:{
+                handleClick: function(){
+                    const color = this.active.color;
+                    this.active.color = color === 'red' ? '' : 'red'
+                }
+            }
+        })
+    </script>
+</body>
+</html>

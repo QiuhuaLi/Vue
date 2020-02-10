@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../../vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="root">
+        <input type="text" v-model='inputValue'>
+        <button v-on:click='handleClick'>提交</button>
+        <ul>
+            <!-- <li v-for='item in todoList' v-on:click='deleteItem(item)'>{{item}}</li> -->
+            <todo-item :content='item' :index='index' v-for='(item,index) in todoList' @delete-item='deleteItem'>
+        </ul>
+    </div>
+    <script>
+        /*
+        *关键点：
+        *1、子组件向父组件传值
+        *2、v-bind:content == :content
+        *3、v-on:click == @click
+        **/
+        var TodoItem = {
+            // 子组件接受到的父组件的值
+            props:['content','index'],
+            // 定义子组件模板并监听子组件的事件
+            template:`<li v-on:click="handleItemClick">{{content}}</li>`,
+            methods:{
+                handleItemClick(){
+                    // 通过$emit触发外部传来的事件，$emit 函数第一个参数是要触发的事件，第二个参数是传递给事件处理函数的参数
+                    this.$emit('delete-item',this.index)
+                }
+            }
+        }
+        const app = new Vue({
+            el: '#root',
+            components:{
+                TodoItem: TodoItem
+            },
+            data:{
+                todoList: ['read','write'],
+                inputValue: ''
+            },
+            methods:{
+                handleClick(){
+                    this.inputValue && this.todoList.push(this.inputValue)
+                    this.inputValue = ''
+                },
+                deleteItem(index){
+                    this.todoList.splice(index,1)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

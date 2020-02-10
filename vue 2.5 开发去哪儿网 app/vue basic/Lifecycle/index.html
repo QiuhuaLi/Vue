@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='../../vue.js'></script>
+    <title>vue lifeCycle</title>
+</head>
+<body>
+    <div id='root'></div>
+    <script>
+        // 每个 Vue 组件就是一个 Vue 实例。每个 Vue 实例都有自己的生命周期函数
+        // 当 Vue 组件被创建时，会将 data 中的属性添加到组件的响应式系统中，可通过实例属性直接访问到 eg: vm.message == vm.$data.message，只有在初始化实例时data中存在的属性才具有响应式。
+        const vm = new Vue({
+            el: '#root',
+            template:'<div>{{message}}</div>',
+            data: {
+                message: 'hello world'
+            },
+            // init event & lifecycle
+            beforeCreate: function(){
+                console.log('beforeCreate', this.message)
+            },
+            // init injections & reactivity
+            created: function(){
+                console.log('created', this.message)
+            },
+            beforeMount: function(){
+                console.log('beforeMount')
+            },
+            mounted: function(){
+                console.log('mounted')
+            },
+            beforeUpdate: function(){
+                console.log('beforeUpdate')
+            },
+            updated: function(){
+                console.log('updated')
+            },
+            // when vm.$destroy is called
+            beforeDestroy: function(){
+                console.log('beforeDestroy')
+            },
+            // teardown vm instance
+            destroyed: function(){
+                console.log('destroyed')
+            }
+        })
+    </script>
+</body>
+</html>

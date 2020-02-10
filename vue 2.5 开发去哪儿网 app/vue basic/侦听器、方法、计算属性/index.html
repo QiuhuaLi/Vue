@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='../../vue.js'></script>
+    <title>计算属性、方法、侦听器</title>
+</head>
+<body>
+    <div id="root">
+        <h1>{{name}}</h1>
+        capital:<input type='number' v-model.number='capital' />
+        APR:<input type='number' v-model.number='rate'>
+        <br/>
+        year after later:<b>{{money}}</b>
+    </div>
+    <script>
+        // v-model 双向绑定,是对表单控件：input select textarea radio checkbox。
+        // v-bind 动态的绑定一个或多个特性，或一个组件的 prop 到表达式
+        const vm = new Vue({
+            el: '#root',
+            data:{
+                name: 'silli',
+                capital: 1000,
+                rate: 0.03,
+                // money: 1030
+            },
+            // 方法，定义在 methods 里面的函数，每当实例更新时都会重新执行
+            // methods: {
+            //     getMoney: function(){
+            //         console.log('执行了一遍')
+            //         let capital = Number(this.capital),
+            //             rate = Number(this.rate);
+            //         return capital+capital*rate
+            //     }
+            // }
+            // 计算属性：有缓存,只有关联的数据属性发生改变时才会重新执行
+            computed:{
+                // money: function(){
+                //     console.log('执行了一遍')
+                //     let capital = Number(this.capital),
+                //         rate = Number(this.rate);
+                //     return capital+capital*rate
+                // },
+                money: {
+                    // getter
+                    get: function(){
+                        console.log('执行了一遍')
+                        let capital = Number(this.capital),
+                            rate = Number(this.rate);
+                        return capital+capital*rate
+                    },
+                    // setter
+                    set: function(){
+                        console.log(this.money)
+                    }
+                }
+
+            }
+            // 侦听器
+            // watch: {
+            //     capital: function(){
+            //         this.money = Number(this.capital)+Number(this.capital)*Number(this.rate)
+            //     },
+            //     rate: function(){
+            //         this.money = Number(this.capital)+Number(this.capital)*Number(this.rate)
+            //     }
+            // }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='../../vue.js'></script>
+    <title>style 进行样式绑定（对象的形式）: toggle font color</title>
+</head>
+<body>
+    <div id="root" :style='divStyle' @click='handleClick'>
+        hello world
+    </div>
+    <script>
+        const vm = new Vue({
+            el: '#root',
+            data: {
+                divStyle:{
+                    color: '',
+                    cursor: 'pointer'
+                }
+            },
+            methods:{
+                handleClick: function(){
+                    const color = this.divStyle.color
+                    this.divStyle.color = color === 'red' ? '' : 'red' 
+                }
+            }
+        })
+    </script>
+</body>
+</html>

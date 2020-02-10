@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../../vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="root">
+        <input type="text" v-model='inputValue'>
+        <button v-on:click='handleClick'>提交</button>
+        <ul>
+            <!-- <li v-for='item in todoList' v-on:click='deleteItem(item)'>{{item}}</li> -->
+            <todo-item v-bind:content='item' v-for='item in todoList' v-on:delete-item='deleteItem(item)'>
+        </ul>
+    </div>
+    <script>
+        // 定义一个全局组件
+        // Vue.component('TodoItem',{
+        //     props:['content'],
+        //     template:'<li>{{content}}</li>'
+        // })
+        // 定义一个局部组件
+        var TodoItem = {
+            // 子组件的 data 必须是一个方法，因为这样每个实例可以维护一份被返回对象的独立的拷贝
+            data: function(){
+                return {}
+            },
+            // 子组件接受到的父组件的值
+            props:['content','deleteItem'],
+            // 定义子组件模板并监听子组件的事件
+            template:`<li v-on:click="$emit('delete-item')">{{content}}</li>`,
+        }
+        const app = new Vue({
+            el: '#root',
+            // 将子组件注册到父组件中
+            components:{
+                TodoItem: TodoItem
+            },
+            data:{
+                todoList: ['read','write'],
+                inputValue: ''
+            },
+            methods:{
+                handleClick(){
+                    this.inputValue && this.todoList.push(this.inputValue)
+                    this.inputValue = ''
+                },
+                deleteItem(value){
+                    this.todoList = this.todoList.filter((item) => item != value)
+                }
+            }
+        })
+    </script>
+</body>
+</html>
