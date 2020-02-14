@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='../../vue.js'></script>
+    <title>动态组件的使用、v-once 指令提高网页性能 </title>
+</head>
+<body>
+    <div id='root'>
+        <!-- <component :is='type'></component> -->
+        <child-one v-if='type==="child-one"' v-once></child-one>
+        <child-two v-if='type==="child-two"' v-once></child-two>
+        <button @click='toggleText'>toggle</button>
+    </div>
+    <script>
+        // 使用动态组件（注释的部分）时，每次切换组件，相关组件都会经历卸载挂载，在经常切换时会影响网页的性能，
+        // 可以使用 v-once 提高网页性能，v-once标志的组件，卸载的时候会有缓存
+        Vue.component('child-one',{
+            template:'<div> childOne </div>'
+        })
+        Vue.component('child-two',{
+            template:'<div> childTwo </div>'
+        })
+        const vm = new Vue({
+            el: '#root',
+            data:{
+                type: 'child-one'
+            },
+            methods: {
+                toggleText: function(){ 
+                    this.type = this.type === 'child-one' ? 'child-two' : 'child-one'
+                }
+            }
+        })
+    </script>
+</body>
+</html>

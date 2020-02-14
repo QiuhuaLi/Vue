@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='../../vue.js'></script>
+    <title>当想在组件上绑定原生事件时</title>
+</head>
+<body>
+    <div id="root">
+        <child @click='handleClick' :content='"正常情况下的组件上事件绑定"'></child> 
+        <child @click.native='childHandleClick' :content='"组件绑定原生事件"'></child> 
+    </div>
+    <script>
+        Vue.component('child',{
+            props:['content'],
+            template:'<div @click="handleChildClick">{{content}}</div>',
+            methods:{
+                handleChildClick: function(){
+                    this.$emit('click')//触发注册在组件上的事件
+                }
+            }
+        })
+        const vm = new Vue({
+            el: '#root',
+            data: {},
+            methods: {
+                handleClick: function(){
+                    console.log('父组件中对子组件事件触发的响应，需要子组件事件转发')
+                },
+                childHandleClick: function(){
+                    console.log('子组件自身执行事件触发后的事件处理函数，不需要经过子组件事件转发')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

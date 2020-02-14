@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='../../vue.js'></script>
+    <title>作用域插槽的使用：通过插槽在父组件中定义子组件展示的格式</title>
+</head>
+<body>
+    <div id='root'>
+        <child>
+            <template v-slot:default='{item, index}'>
+                <div>{{item}}----{{index}}  ✔️</div>
+            </template>
+        </child>
+    </div>
+    <script>
+        // 作用域插槽的使用场景：父组件向子组件传递 DOM 结构，子组件需要向父组件的 DOM 结构传递数据，即插槽能访问子组件的数据
+        const child ={
+            props:['content'],
+            data: function(){
+                return {
+                    list: ['mothor','father','me','garandpa'],
+                }
+            },
+            template:`
+                <div>
+                    <ul>
+                        <slot v-for='(item,index) of list' :item='item' :index='index'></slot>
+                    </ul>
+                </div>`
+        };
+        const vm = new Vue({
+            el: '#root',
+            components:{
+                child:child
+            }
+        })
+    </script>
+</body>
+</html>

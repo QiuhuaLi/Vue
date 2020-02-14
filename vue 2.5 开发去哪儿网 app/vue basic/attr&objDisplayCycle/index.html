@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='../../vue.js'></script>
+    <title>数组和对象的循环展示、动态修改数据</title>
+</head>
+<body>
+    <div id="root">
+        <div v-for='(item,index) of list' 
+             :key='index'>
+            <div>{{item.text}}----{{index}}</div>
+            <span>{{item.text}}</span>
+        </div>
+        <button @click='addArrItem'>plus</button>
+        <template v-for='(item, key, index) of userInfo'>
+            <div :key='key'>
+                {{key}}: {{item}} ------{{index}}
+            </div>
+        </template>
+        <button @click='addInfo'>addInfo</button>
+    </div>
+    <script>
+        //列表渲染：
+        // V-for=‘item in list’
+        // v-for=‘item of list’/v-for=‘(item,index) of list’
+        // 这两个有什么区别 没有什么区别，使用习惯的问题
+        // 数组的循环：
+        // 对数组的操作，只能使用1、vue支持的7种方法对数组进行操作，2、改变数组的引用。否则页面不会对数组的改变进行动态反应,比如说通过下标的方式进行改变数组
+        // 7种方法： pop push shift unshift reverse splice sort
+        // 模板标签： <template></template>，注意模板标签是不是真实的 dom 节点不会渲染到页面上，所以不能在 template 上绑定 key 值
+
+        // 对象的循环：v-for=‘(item,key,index) of obj’
+        // 对象里面动态添加属性，页面是不会动态渲染的，要改变对象里面的值，方法是改变对象的引用
+
+        // vue 中的 set 方法
+        // 另一种向对象里添加值: Vue.set(obj,属性名，属性值)/vm.$set(obj,属性名，属性值)
+        // 另一种向数组里面添加值：Vue.set(数组，下标，值)/vm.$set(数组，下标，下标的值)
+
+        const vm = new Vue({
+            el: '#root',
+            data:{
+                list:[
+                    {id:0,text:0},
+                    {id:1,text:1},
+                    {id:2,text:2}
+                ],
+                userInfo:{
+                    name: 'silli',
+                    age: 24,
+                    work: 'programmer'
+                }
+            },
+            methods:{
+                addArrItem: function(){
+                    const len = this.list.length;
+                    console.log(len)
+                    // this.list[length] = {id:3,text:3}; 不生效
+                    this.list.push({id:len,text:len})
+                    vm.$set(this.list,len+1,{id:len+1,text:len+1})
+                },
+                addInfo: function(){
+                    vm.$set(this.userInfo,'address','sichuan')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

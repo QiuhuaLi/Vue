@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='../../vue.js'></script>
+    <title>插槽的使用</title>
+</head>
+<body>
+    <div id='root'>
+        <child :content='"<p>一篇文章</p>"'> link </child>
+        <articles>
+            <template v-slot:header>
+                <h1>Header</h1>
+            </template>
+            <section>Content</section>
+            <template v-slot:footer>
+                <footer>Footer</footer>   
+            </template>
+        </articles>
+    </div>
+    <script>
+        // 一个普通的局部组件是按照定义 js 对象那样来定义的，然后在 components 里面使用这个组件
+        const child ={
+            props:['content'],
+            data: function(){
+                return {
+                    DOMContent: this.content,
+                }
+            },
+            // 使用了 v-html 之后插槽就没有用了
+            template:`
+                <div v-html='this.DOMContent'>
+                    <slot>链接</slot>
+                </div>`
+        };
+        // 使用了插槽和具名插槽添加 DOM 结构。插槽只有一个，具名插槽可以有很多个
+        // v-slot 只能添加在 template 中
+        const articles = {
+            template:`
+                <div>
+                    <slot name='header'></slot>
+                    <slot></slot>
+                    <slot name='footer'></slot>
+                </div>
+            `
+        }
+        const vm = new Vue({
+            el: '#root',
+            components:{
+                child:child,
+                articles: articles,
+            }
+        })
+    </script>
+</body>
+</html>

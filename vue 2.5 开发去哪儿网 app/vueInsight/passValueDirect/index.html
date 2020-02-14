@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='../../vue.js'></script>
+    <title>父子组件之间传值</title>
+</head>
+<body>
+    <div id='root'>
+        <counter ref='add1' :count='initCount' @inc='handleInc'></counter>
+        <counter ref='add2' :count='initCount' @inc='handleInc'></counter>
+        累计相加得：<span>{{total}}</span>
+        <br>
+        <button @click='reset'> reset </button>
+    </div>
+    <script>
+        // 父组件向子组件传递数据：通过属性向子组件传递数据
+        // 单向数据流，子组件不能直接修改父组件的数据，否则控制台会报错。
+        // 子组件向父组件传值：this.$emit(事件名，传递给事件处理函数的参数)
+
+        const counter = {
+            props:['count'],
+            data: function(){
+                return {
+                    number: this.count
+                }
+            },
+            template:`<div>
+                        <span>{{number}}</span> 
+                        <button @click="addCount">plus</button>
+                      </div>`,
+            methods: {
+                addCount:  function(){
+                    this.number++;
+                    this.$emit('inc', this.number)
+                },
+                initCount: function(){
+                    this.number = 0;
+                }
+            },
+            // 监听 props 的变化更新 data 
+            // watch: {
+            //     count: function(){
+            //         console.log(1)
+            //         this.number = this.count
+            //     }
+            // }
+        }
+        const vm = new Vue({
+            el: '#root',
+            data:{
+                total: 0,
+                initCount: 0,
+            },
+            components: {
+                counter: counter
+            },
+            methods: {
+                handleInc: function(num){
+                    this.total = this.$refs.add1.number + this.$refs.add2.number
+                },
+                reset: function(){
+                    this.total = 0;
+                    // 通过 ref 调用子组件的方法更新子组件的 data
+                    this.$refs.add1.initCount()
+                    this.$refs.add2.initCount()
+                }
+            }
+        })
+    </script>
+</body>
+</html>

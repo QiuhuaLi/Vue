@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='../../vue.js'></script>
+    <title>条件渲染</title>
+</head>
+<body>
+    <div id="root">
+        <h1>v-if和v-show语句的区别</h1>
+        <div v-if='show'>v-if指令</div>
+        <div v-show='show'>v-show指令</div>
+
+        <h1>v-if指令的高级用法1：if else 语句</h1>
+        <div v-if='show'>
+            用户名： <input type="text" key='userName'>
+        </div>
+        <div v-else>
+            电子邮箱：<input type="text" key='email'>
+        </div>
+
+        <h1>v-if的高级用法2：if elseif 语句</h1>
+        <p v-if='name === "a"'>我的名字是 a</p>
+        <p v-else-if='name === "b"'>我的名字是 b</p>
+        <p v-else>我的名字是 no one</p>
+    </div>
+    <script>
+        /*
+        *条件渲染：控制节点是否在页面上进行展示
+        *   v-if 当值为 false 的时候，元素已经不存在页面的 DOM 上了
+        *   V-show：当值为 false 的时候，元素已经被渲染到页面上只是 display:none
+        *   复杂的使用：
+        *   （1）V-if 和 v-else 紧贴一起使用，当 v-if=“false”的时候显示 v-else 的节点
+        *   （2）v-if、v-else-if、v-else 紧贴一起使用
+        *   注意： vue 在进行节点切换的时候会对页面上已经存在的节点尽最大努力进行复用。所以需要为独一无二的节点添加 key 值
+        **/
+        const vm = new Vue({
+            el: '#root',
+            data:{
+                show: false,
+                name: 'b'
+            }
+        })
+    </script>
+</body>
+</html>
